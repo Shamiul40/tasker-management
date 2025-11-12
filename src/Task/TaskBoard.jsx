@@ -38,6 +38,7 @@ export default function TaskBoard() {
 
     setShowModalTask(false);
     setTaskToUpdate(null);
+    
   };
 
   const handleEditTask = (task) => {
