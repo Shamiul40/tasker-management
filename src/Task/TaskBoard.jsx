@@ -3,6 +3,7 @@ import SearchTask from "./SearchTask";
 import TaskAction from "./TaskAction";
 import TaskList from "./TaskList";
 import AddModalTask from "./AddModalTask";
+import { HiH1 } from "react-icons/hi2";
 
 const allTask = [
   {
@@ -49,26 +50,33 @@ export default function TaskBoard() {
     setTaskToUpdate(null);
   };
 
-  const handleDelete =(taskId)=>{
-      const deleteAfterTask = tasks.filter(task=> task.id !== taskId);
-      setTasks(deleteAfterTask)
-  }
+  const handleDelete = (taskId) => {
+    const deleteAfterTask = tasks.filter((task) => task.id !== taskId);
+    setTasks(deleteAfterTask);
+  };
 
-  const handleDeleteAll =()=>{
-    setTasks([])
-  }
+  const handleDeleteAll = () => {
+    setTasks([]);
+  };
 
-  const handleFavouriteIcon =(taskId)=>{
-    
-    setTasks(tasks.map(task=>{
-      if(task.id === taskId) {
-        return {...task, isFavourite : !task.isFavourite}
-      } else {
-        return task
-      }
-    }))
+  const handleFavouriteIcon = (taskId) => {
+    setTasks(
+      tasks.map((task) => {
+        if (task.id === taskId) {
+          return { ...task, isFavourite: !task.isFavourite };
+        } else {
+          return task;
+        }
+      })
+    );
+  };
 
-  }
+  const handleSearch = (search) => {
+    const filterSearch = tasks.filter((task) =>
+      task.title.toLocaleLowerCase().includes(search.toLocaleLowerCase())
+    );
+    setTasks([...filterSearch]);
+  };
 
   return (
     <section className="mb-20" id="tasks">
@@ -80,11 +88,23 @@ export default function TaskBoard() {
         />
       )}
       <div className="container">
-        <SearchTask />
+        <SearchTask handleSearch={handleSearch} />
 
         <div className="rounded-xl border border-[rgba(206,206,206,0.12)] bg-[#1D212B] px-6 py-8 md:px-9 md:py-16">
-          <TaskAction handleDeleteAll={handleDeleteAll} handleAddTask={() => setShowModalTask(true)} />
-          <TaskList handleFavouriteIcon={handleFavouriteIcon} tasks={tasks} handleEditTask={handleEditTask} handleDelete={handleDelete} />
+          <TaskAction
+            handleDeleteAll={handleDeleteAll}
+            handleAddTask={() => setShowModalTask(true)}
+          />
+          {
+            tasks.length > 0 ? (
+              <TaskList
+            handleFavouriteIcon={handleFavouriteIcon}
+            tasks={tasks}
+            handleEditTask={handleEditTask}
+            handleDelete={handleDelete}
+          />
+            ) : (<h1 className="flex justify-center items-center">no data found</h1>)
+          }
         </div>
       </div>
     </section>
