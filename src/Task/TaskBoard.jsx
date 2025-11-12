@@ -54,6 +54,22 @@ export default function TaskBoard() {
       setTasks(deleteAfterTask)
   }
 
+  const handleDeleteAll =()=>{
+    setTasks([])
+  }
+
+  const handleFavouriteIcon =(taskId)=>{
+    
+    setTasks(tasks.map(task=>{
+      if(task.id === taskId) {
+        return {...task, isFavourite : !task.isFavourite}
+      } else {
+        return task
+      }
+    }))
+
+  }
+
   return (
     <section className="mb-20" id="tasks">
       {showModalTask && (
@@ -67,8 +83,8 @@ export default function TaskBoard() {
         <SearchTask />
 
         <div className="rounded-xl border border-[rgba(206,206,206,0.12)] bg-[#1D212B] px-6 py-8 md:px-9 md:py-16">
-          <TaskAction handleAddTask={() => setShowModalTask(true)} />
-          <TaskList tasks={tasks} handleEditTask={handleEditTask} handleDelete={handleDelete} />
+          <TaskAction handleDeleteAll={handleDeleteAll} handleAddTask={() => setShowModalTask(true)} />
+          <TaskList handleFavouriteIcon={handleFavouriteIcon} tasks={tasks} handleEditTask={handleEditTask} handleDelete={handleDelete} />
         </div>
       </div>
     </section>
