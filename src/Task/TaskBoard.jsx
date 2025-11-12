@@ -20,15 +20,26 @@ export default function TaskBoard() {
   const [tasks, setTasks] = useState(allTask);
   const [showModalTask, setShowModalTask] = useState(false);
 
+  const handleAddEditTask =(newTask)=>{
+   console.log("adding task here", newTask);
+   setTasks([...tasks, newTask])
+   setShowModalTask(false)
+
+  }
+
+  const handleEditTask=()=>{
+    
+  }
+
   return (
     <section className="mb-20" id="tasks">
-       {showModalTask && (<AddModalTask />)}
+       {showModalTask && (<AddModalTask handleAddEditTask={handleAddEditTask} />)}
       <div className="container">
         <SearchTask />
        
         <div className="rounded-xl border border-[rgba(206,206,206,0.12)] bg-[#1D212B] px-6 py-8 md:px-9 md:py-16">
           <TaskAction handleAddTask={() => setShowModalTask(true)} />
-          <TaskList tasks={tasks} />
+          <TaskList tasks={tasks} handleEditTask={handleEditTask} />
         </div>
       </div>
     </section>
